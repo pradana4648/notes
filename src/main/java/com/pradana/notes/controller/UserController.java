@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pradana.notes.dto.UserDto;
+import com.pradana.notes.dto.LoginDto;
+import com.pradana.notes.dto.RegisterDto;
+import com.pradana.notes.pojo.User;
 import com.pradana.notes.services.UserService;
 import com.pradana.notes.templates.UserResponse;
 
@@ -29,10 +31,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(value = "/auth", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/auth/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody()
-    public ResponseEntity<UserResponse> registerUser(@Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<UserResponse<User>> registerUser(@Valid @RequestBody RegisterDto userDto) {
         return userService.registerUser(userDto);
+    }
+
+    @PostMapping(value = "/auth/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody()
+    public ResponseEntity<UserResponse<User>> loginUser(@Valid @RequestBody LoginDto loginDTO) {
+        return userService.loginUser(loginDTO);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

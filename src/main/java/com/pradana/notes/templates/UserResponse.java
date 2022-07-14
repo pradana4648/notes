@@ -1,11 +1,10 @@
 package com.pradana.notes.templates;
 
-import com.pradana.notes.dto.UserDto;
-
 import lombok.Data;
 
 @Data
-public class UserResponse {
+public class UserResponse<T> {
     private String status;
-    private UserDto result;
+    private String message;
+    private T result;
 }
