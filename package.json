@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:postcss": "NODE_ENV=production postcss src/main/resources/static/css/main.css -o target/classes/static/css/output.css --watch"
+    "build:postcss": "NODE_ENV=production postcss src/main/resources/static/css/main.css -o src/main/resources/static/css/output.css --watch"
   },
   "keywords": [],
   "author": "",

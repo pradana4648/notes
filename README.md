@@ -9,6 +9,11 @@ An springboot app for building notes with simple REST API
 
 Or optionally you can install [SDKMan](https://sdkman.io/install) and read docs for more information
 
-# License
+## Todo
+
+- [ ] User Authentication
+- [ ] CRUD
+
+## License
 
 See more info [Apache License 2.0](https://github.com/pradana4648/notes/blob/master/LICENSE)
