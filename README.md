@@ -12,7 +12,7 @@ Or optionally you can install [SDKMan](https://sdkman.io/install) and read docs 
 ## Todo
 
 - [ ] User Authentication
-- [ ] CRUD
+- [x] CRUD
 
 ## License
 
