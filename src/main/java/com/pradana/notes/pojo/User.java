@@ -1,30 +1,19 @@
 package com.pradana.notes.pojo;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
+@Data
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @SequenceGenerator(name = "user_generator", sequenceName = "user_seq")
-    private Long id;
+    private String id;
 
-    @Getter
-    @Setter
     private String username;
 
-    @Getter
-    @Setter
     private String email;
 
-    @Getter
-    @Setter
     private String password;
 }

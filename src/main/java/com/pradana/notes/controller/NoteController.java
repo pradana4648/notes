@@ -11,10 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,10 +37,29 @@ public class NoteController {
         return noteService.getNotes();
     }
 
-    @PostMapping("/notes")
+    @GetMapping("/note")
+    @ResponseBody
+    public ResponseEntity<NoteResponse<Note>> getNoteById(@RequestParam(name = "id") String id) {
+        return noteService.getNoteById(id);
+    }
+
+    @PutMapping("/note")
+    @ResponseBody
+    public ResponseEntity<NoteResponse<Note>> updateNoteById(@RequestParam(name = "id") String id,
+            @Valid @RequestBody NoteDto noteDto) {
+        return noteService.updateNoteById(id, noteDto);
+    }
+
+    @PostMapping("/note")
     @ResponseBody
     public ResponseEntity<NoteResponse<Note>> addNotes(@Valid @RequestBody NoteDto noteDto) {
         return noteService.addNote(noteDto);
+    }
+
+    @DeleteMapping("/note")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> deleteNoteById(@RequestParam(name = "id") String id) {
+        return noteService.deleteNoteById(id);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
