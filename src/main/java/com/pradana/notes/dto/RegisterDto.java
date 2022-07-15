@@ -9,18 +9,18 @@ import lombok.Data;
 
 @Data
 public class RegisterDto {
-    @NotNull(message = "Nama harus di isi")
-    @NotBlank(message = "Nama tidak boleh kosong")
-    @Size(min = 4, message = "Nama hanya boleh di isi min 4 karakter")
+    @NotNull(message = "Username is required")
+    @NotBlank(message = "Username cannot be empty")
+    @Size(min = 4, message = "Username must be at least 4 characters long")
     private String username;
 
-    @NotNull(message = "Email harus di isi")
-    @NotBlank(message = "Email tidak boleh kosong")
-    @Email(message = "Email tidak valid", regexp = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
+    @NotNull(message = "Email is required")
+    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "Email does not match")
     private String email;
 
     @NotNull(message = "Password harus di isi")
-    @NotBlank(message = "Password tidak boleh kosong")
-    @Size(min = 8, message = "Password minimal 8 karakter")
+    @NotBlank(message = "Password cannot be empty")
+    @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
 }

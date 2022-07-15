@@ -9,17 +9,17 @@ import lombok.Data;
 
 @Data
 public class NoteDto {
-    @NotNull(message = "Judul harus di isi")
-    @NotBlank(message = "Judul tidak boleh kosong")
-    @Size(min = 4, message = "Min judul terdiri dari 4 karakter")
+    @NotNull(message = "Title is required")
+    @NotBlank(message = "Title cannot be empty")
+    @Size(min = 4, message = "Title must be at least 4 characters long")
     private String title;
 
-    @NotNull(message = "Deskripsi harus di isi")
-    @NotBlank(message = "Deskripsi tidak boleh kosong")
-    @Size(min = 4, message = "Min deskripsi terdiri dari 4 karakter")
+    @NotNull(message = "Description is required")
+    @NotBlank(message = "Description cannot be empty")
+    @Size(min = 4, message = "Description must be at least 4 characters long")
     private String description;
 
     @NotNull
-    @Pattern(regexp = "^true$|^false$", message = "Hanya bisa di isi true atau false")
+    @Pattern(regexp = "^true$|^false$", message = "Input not allowed: Must be true or false")
     private String isCompleted;
 }

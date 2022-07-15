@@ -8,12 +8,12 @@ import lombok.Data;
 
 @Data
 public class LoginDto {
-    @NotNull(message = "Email harus di isi")
-    @NotBlank(message = "Email tidak boleh kosong")
-    @Email(message = "Email tidak valid", regexp = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
+    @NotNull(message = "Email is required")
+    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "Email does not match")
     private String email;
 
-    @NotNull(message = "Password harus di isi")
-    @NotBlank(message = "Password tidak boleh kosong")
+    @NotNull(message = "Password is required")
+    @NotBlank(message = "Password cannot be empty")
     private String password;
 }
