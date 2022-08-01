@@ -1,4 +1,4 @@
-package com.pradana.notes.controller.api;
+package com.pradana.notes.controller.v1.api;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,13 +45,16 @@ public class NoteController {
         return noteService.getNoteById(id);
     }
 
-    // @PutMapping("/note")
-    // @ResponseBody
-    // public ResponseEntity<NoteResponse<NoteDto>>
-    // updateNoteById(@RequestParam(name = "id") String id,
-    // @Valid @RequestBody NoteRequest noteDto) {
-    // return noteService.updateNoteById(id, noteDto);
-    // }
+    @PutMapping("/note")
+    @ResponseBody
+    public ResponseEntity<NoteResponse<NoteDto>> updateNoteById(@RequestParam(name = "id") String id,
+            @Valid @RequestBody NoteRequest noteDto) {
+        Note model = new Note();
+        model.setTitle(noteDto.getTitle());
+        model.setCompleted(Boolean.valueOf(noteDto.getIsCompleted()));
+        model.setDescription(noteDto.getDescription());
+        return noteService.updateNoteById(id, NoteMapper.toNoteDto(model));
+    }
 
     @PostMapping("/note")
     @ResponseBody
