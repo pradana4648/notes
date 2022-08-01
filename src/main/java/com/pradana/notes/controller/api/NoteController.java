@@ -1,4 +1,4 @@
-package com.pradana.notes.controller;
+package com.pradana.notes.controller.api;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,16 +15,17 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pradana.notes.dto.NoteDto;
-import com.pradana.notes.pojo.Note;
+import com.pradana.notes.controller.v1.request.NoteRequest;
+import com.pradana.notes.dto.mapper.NoteMapper;
+import com.pradana.notes.dto.model.note.NoteDto;
+import com.pradana.notes.dto.response.NoteResponse;
+import com.pradana.notes.model.Note;
 import com.pradana.notes.services.NoteService;
-import com.pradana.notes.templates.NoteResponse;
 
 @RestController
 public class NoteController {
@@ -33,32 +34,37 @@ public class NoteController {
 
     @GetMapping("/notes")
     @ResponseBody
-    public ResponseEntity<NoteResponse<List<Note>>> getNotes() {
+    public ResponseEntity<NoteResponse<List<NoteDto>>> getNotes() {
         return noteService.getNotes();
     }
 
     @GetMapping("/note")
     @ResponseBody
-    public ResponseEntity<NoteResponse<Note>> getNoteById(@RequestParam(name = "id") String id) {
+    public ResponseEntity<NoteResponse<NoteDto>> getNoteById(@RequestParam(name = "id") String id) {
         return noteService.getNoteById(id);
     }
 
-    @PutMapping("/note")
-    @ResponseBody
-    public ResponseEntity<NoteResponse<Note>> updateNoteById(@RequestParam(name = "id") String id,
-            @Valid @RequestBody NoteDto noteDto) {
-        return noteService.updateNoteById(id, noteDto);
-    }
+    // @PutMapping("/note")
+    // @ResponseBody
+    // public ResponseEntity<NoteResponse<NoteDto>>
+    // updateNoteById(@RequestParam(name = "id") String id,
+    // @Valid @RequestBody NoteRequest noteDto) {
+    // return noteService.updateNoteById(id, noteDto);
+    // }
 
     @PostMapping("/note")
     @ResponseBody
-    public ResponseEntity<NoteResponse<Note>> addNotes(@Valid @RequestBody NoteDto noteDto) {
-        return noteService.addNote(noteDto);
+    public ResponseEntity<NoteResponse<NoteDto>> addNotes(@Valid @RequestBody NoteRequest noteDto) {
+        Note model = new Note();
+        model.setTitle(noteDto.getTitle());
+        model.setCompleted(Boolean.valueOf(noteDto.getIsCompleted()));
+        model.setDescription(noteDto.getDescription());
+        return noteService.addNote(NoteMapper.toNoteDto(model));
     }
 
     @DeleteMapping("/note")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> deleteNoteById(@RequestParam(name = "id") String id) {
+    public ResponseEntity<NoteResponse<NoteDto>> deleteNoteById(@RequestParam(name = "id") String id) {
         return noteService.deleteNoteById(id);
     }
 

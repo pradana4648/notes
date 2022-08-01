@@ -1,8 +1,8 @@
-package com.pradana.notes.repositories;
+package com.pradana.notes.repository.note;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.pradana.notes.pojo.Note;
+import com.pradana.notes.model.Note;
 
 public interface NoteRepository extends CrudRepository<Note, String> {
 

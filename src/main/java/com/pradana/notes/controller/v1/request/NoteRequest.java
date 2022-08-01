@@ -1,4 +1,4 @@
-package com.pradana.notes.dto;
+package com.pradana.notes.controller.v1.request;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class NoteDto {
+public class NoteRequest {
     @NotNull(message = "Title is required")
     @NotBlank(message = "Title cannot be empty")
     @Size(min = 4, message = "Title must be at least 4 characters long")
