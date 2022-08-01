@@ -1,4 +1,4 @@
-package com.pradana.notes.controller;
+package com.pradana.notes.controller.v1.ui;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,4 +1,4 @@
-package com.pradana.notes.pojo;
+package com.pradana.notes.dto.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class User {
+public class UserDto {
     @Id
     private String id;
 

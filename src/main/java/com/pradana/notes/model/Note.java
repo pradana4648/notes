@@ -1,9 +1,12 @@
-package com.pradana.notes.pojo;
+package com.pradana.notes.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.Data;
 
@@ -11,7 +14,7 @@ import lombok.Data;
 @Data
 public class Note {
     @Id
-    private String id;
+    private String id = UUID.randomUUID().toString();
 
     private String title;
 
@@ -19,7 +22,9 @@ public class Note {
 
     private boolean isCompleted;
 
+    @Temporal(TemporalType.DATE)
     private Date createdAt;
 
+    @Temporal(TemporalType.DATE)
     private Date updatedAt;
 }
