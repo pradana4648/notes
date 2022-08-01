@@ -1,7 +1,10 @@
 package com.pradana.notes.services;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -18,18 +21,21 @@ import com.pradana.notes.repository.note.NoteRepository;
 
 @Component
 public class NoteServiceImpl implements NoteService {
+    private UUID uuid = UUID.randomUUID();
+    private Date currentDate = Date.from(Instant.now());
+
     @Autowired
     private NoteRepository repository;
 
     @Override
     public ResponseEntity<NoteResponse<NoteDto>> addNote(NoteDto dto) {
         Note model = new Note();
-        model.setId(dto.getId());
+        model.setId(uuid.toString());
         model.setTitle(dto.getTitle());
         model.setDescription(dto.getDescription());
         model.setCompleted(dto.isCompleted());
-        model.setCreatedAt(dto.getCreatedAt());
-        model.setUpdatedAt(dto.getUpdatedAt());
+        model.setCreatedAt(currentDate);
+        model.setUpdatedAt(currentDate);
 
         Note entity = repository.save(model);
 
@@ -41,20 +47,22 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public ResponseEntity<NoteResponse<NoteDto>> updateNote(NoteDto dto) {
-        Note model;
+    public ResponseEntity<NoteResponse<NoteDto>> updateNoteById(String id, NoteDto dto) {
         ResponseEntity<NoteResponse<NoteDto>> response;
 
         // Find note if existed
-        Optional<Note> noteFindById = repository.findById(dto.getId());
+        Optional<Note> noteFindById = repository.findById(id);
         if (noteFindById.isPresent()) {
-            model = new Note();
-            model.setId(dto.getId());
-            model.setTitle(dto.getTitle());
-            model.setDescription(dto.getDescription());
-            model.setCompleted(dto.isCompleted());
-            model.setCreatedAt(dto.getCreatedAt());
-            model.setUpdatedAt(dto.getUpdatedAt());
+            Note note = noteFindById.get();
+            Note newNote = new Note();
+            newNote.setId(id);
+            newNote.setTitle(dto.getTitle());
+            newNote.setDescription(dto.getDescription());
+            newNote.setCompleted(dto.isCompleted());
+            newNote.setCreatedAt(note.getCreatedAt());
+            newNote.setUpdatedAt(currentDate);
+
+            repository.save(newNote);
 
             response = ResponseEntity.status(HttpStatus.OK)
                     .body(new NoteResponse<>(HttpStatus.OK.getReasonPhrase(), "success",
@@ -64,7 +72,7 @@ public class NoteServiceImpl implements NoteService {
         } else {
             response = ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new NoteResponse<>(HttpStatus.NOT_FOUND.getReasonPhrase(),
-                            String.format("note with id ${0} not found", dto.getId()), null));
+                            String.format("note with id %s not found", dto.getId()), null));
             return response;
         }
     }
@@ -75,15 +83,14 @@ public class NoteServiceImpl implements NoteService {
         Optional<Note> noteFindById = repository.findById(id);
 
         if (noteFindById.isPresent()) {
-            Note deletedNote = noteFindById.get();
             repository.delete(noteFindById.get());
             response = ResponseEntity.status(HttpStatus.OK).body(new NoteResponse<>(HttpStatus.OK.getReasonPhrase(),
-                    String.format("success delete note with id ${0}", id), NoteMapper.toNoteDto(deletedNote)));
+                    String.format("success delete note with id %s", id), null));
             return response;
         } else {
             response = ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new NoteResponse<>(HttpStatus.NOT_FOUND.getReasonPhrase(),
-                            String.format("note with id ${0} not found", id), null));
+                            String.format("note with id %s not found", id), null));
             return response;
         }
     }
@@ -100,8 +107,20 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public ResponseEntity<NoteResponse<NoteDto>> getNoteById(String id) {
-        // TODO Auto-generated method stub
-        return null;
+        ResponseEntity<NoteResponse<NoteDto>> response;
+        Optional<Note> noteFindById = repository.findById(id);
+
+        if (noteFindById.isPresent()) {
+            Note noteById = noteFindById.get();
+            response = ResponseEntity.status(HttpStatus.OK).body(new NoteResponse<>(HttpStatus.OK.getReasonPhrase(),
+                    String.format("success delete note with id %s", id), NoteMapper.toNoteDto(noteById)));
+            return response;
+        } else {
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new NoteResponse<>(HttpStatus.NOT_FOUND.getReasonPhrase(),
+                            String.format("note with id %s not found", id), null));
+            return response;
+        }
     }
 
 }
