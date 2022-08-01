@@ -124,7 +124,7 @@ public interface NoteService {
 
     public ResponseEntity<NoteResponse<NoteDto>> addNote(NoteDto dto);
 
-    public ResponseEntity<NoteResponse<NoteDto>> updateNote(NoteDto dto);
+    public ResponseEntity<NoteResponse<NoteDto>> updateNoteById(String id, NoteDto dto);
 
     public ResponseEntity<NoteResponse<NoteDto>> deleteNoteById(String id);
 
